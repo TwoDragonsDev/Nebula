@@ -28,12 +28,11 @@ class BluetoothDeviceInfoWidget extends StatelessWidget {
                     Text(
                       controller.myDeviceInfo.value.deviceName,
                       style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold), // Grassetto
+                          fontSize: 20.0, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 8.0),
                     Text(
-                      'Device Address: ${controller.myDevice.value.remoteId}',
+                      'Identifier: ${controller.myDevice.value.remoteId}',
                       style: TextStyle(fontSize: 16.0),
                     ),
                     SizedBox(height: 8.0),
