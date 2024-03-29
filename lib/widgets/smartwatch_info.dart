@@ -12,6 +12,7 @@ class BluetoothDeviceInfoWidget extends StatelessWidget {
       () => Stack(
         children: [
           Container(
+            width: 350,
             padding: EdgeInsets.all(16.0),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.grey),
