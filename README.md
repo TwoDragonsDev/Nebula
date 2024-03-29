@@ -3,7 +3,7 @@
 
 # Nebula - AsteroidOS Smartwatch Manager
 
-Nebula is a Flutter application designed to manage your AsteroidOS smartwatch seamlessly. With Nebula, you can customize watch faces, manage apps, and control various settings on your AsteroidOS-powered smartwatch with ease.
+Nebula is an open-source Flutter application for Android, tailored to seamlessly manage your AsteroidOS smartwatch. With Nebula, you have the power to customize watch faces, oversee apps, and efficiently control various settings on your AsteroidOS-powered smartwatch.
 
 ## What is AsteroidOS?
 
