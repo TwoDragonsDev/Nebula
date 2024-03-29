@@ -96,6 +96,7 @@ class ApplicationController extends GetxController {
     "de.number26.android": "ios-card",
     "flipboard.app": "logo-rss",
     "im.vector.app": "ios-chatbubbles-outline",
+    "it.hype.app": "ios-card",
     "net.etuldan.sparss.floss": "logo-rss",
     "net.frju.flym": "logo-rss",
     "net.slideshare.mobile": "logo-linkedin",
@@ -104,9 +105,11 @@ class ApplicationController extends GetxController {
     "org.telegram.messenger": "ios-paper-plane",
     "org.thoughtcrime.securesms": "logo-signal",
     "org.thunderdog.challegram": "ios-paper-plane",
+    "org.joinmastodon.android": "md-mastodon",
     "org.wordpress.android": "logo-wordpress",
     "tv.twitch.android.app": "logo-twitch",
-    "ws.xsoh.etar": "ios-calendar"
+    "ws.xsoh.etar": "ios-calendar",
+    "xyz.nextalone.nagram": "ios-paper-plane",
   };
 
   final Rx<BluetoothCharacteristic?> pushNotificationsService =
