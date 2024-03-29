@@ -108,7 +108,8 @@ class ApplicationController extends GetxController {
     "org.joinmastodon.android": "md-mastodon",
     "org.wordpress.android": "logo-wordpress",
     "tv.twitch.android.app": "logo-twitch",
-    "ws.xsoh.etar": "ios-calendar"
+    "ws.xsoh.etar": "ios-calendar",
+    "xyz.nextalone.nagram": "ios-paper-plane",
   };
 
   final Rx<BluetoothCharacteristic?> pushNotificationsService =
