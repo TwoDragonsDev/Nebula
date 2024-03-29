@@ -10,8 +10,6 @@ import 'utils/snackbar.dart';
 import 'widgets/smartwatch_info.dart';
 import 'package:get/get.dart';
 
-import 'widgets/smartwatch_settings.dart';
-
 void main() {
   FlutterBluePlus.setLogLevel(LogLevel.verbose, color: true);
   ApplicationController controller = ApplicationController();
@@ -88,8 +86,6 @@ class _InfoPageState extends State<InfoPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             BluetoothDeviceInfoWidget(),
-            SizedBox(height: 20.0),
-            DeviceSettingsWidget(),
           ],
         ),
       ),
