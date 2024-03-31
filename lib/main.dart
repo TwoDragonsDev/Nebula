@@ -4,6 +4,7 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:notification_listener_service/notification_listener_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'controllers/device_controller.dart';
+import 'device_connection.dart';
 import 'screens/scan_screen.dart';
 import 'services/init_services.dart';
 import 'utils/snackbar.dart';
@@ -43,38 +44,6 @@ class _InfoPageState extends State<InfoPage> {
     connectToDevice();
   }
 
-  Future<void> connectToDevice() async {
-    bool isPermissionGranted =
-        await NotificationListenerService.isPermissionGranted();
-
-    if (!isPermissionGranted) {
-      await NotificationListenerService.requestPermission();
-    }
-
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final uuid = prefs.getString('uuid') ?? "";
-      final deviceName = prefs.getString('deviceName') ?? "";
-
-      if (uuid.isNotEmpty && deviceName.isNotEmpty) {
-        controller.setDeviceInfoName(deviceName);
-        controller.myDevice.value =
-            BluetoothDevice(remoteId: DeviceIdentifier(uuid));
-        await controller.myDevice.value.connectAndUpdateStream();
-        setState(() {
-          controller.myDevice.value = controller.myDevice.value;
-        });
-        initServices();
-      } else {
-        Snackbar.show(ABC.c, "UUID or Device Name is empty", success: false);
-      }
-    } catch (e) {
-      Snackbar.show(ABC.c, prettyException("Connect Error:", e),
-          success: false);
-    }
-    await Future.delayed(Duration(seconds: 1));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,12 +74,5 @@ class _InfoPageState extends State<InfoPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
-  }
-}
-
-class ApplicationBinding implements Bindings {
-  @override
-  void dependencies() {
-    Get.lazyPut((() => ApplicationController()));
   }
 }
