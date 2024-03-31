@@ -24,7 +24,6 @@ class _ScanScreenState extends State<ScanScreen> {
   bool _isScanning = false;
   late StreamSubscription<List<ScanResult>> _scanResultsSubscription;
   late StreamSubscription<bool> _isScanningSubscription;
-
   @override
   void initState() {
     super.initState();
@@ -82,14 +81,18 @@ class _ScanScreenState extends State<ScanScreen> {
 
   void onConnectPressed(BluetoothDevice device) async {
     try {
-      await device.connectAndUpdateStream();
+      final ApplicationController controller = Get.find();
+      final prefs = await SharedPreferences.getInstance();
+      controller.setDeviceInfoName(device.advName);
+      controller.setDevice(device);
+      await prefs.setString('uuid', device.remoteId.toString());
+      await prefs.setString('deviceName', device.advName.toString());
+      /*  await device.connectAndUpdateStream();
       print(device.advName);
 
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('uuid', device.remoteId.toString());
       await prefs.setString('deviceName', device.advName.toString());
-
-      final ApplicationController controller = Get.find();
 
       controller.setDevice(device);
       controller.setDeviceInfoName(device.advName.toString());
@@ -99,7 +102,7 @@ class _ScanScreenState extends State<ScanScreen> {
       MaterialPageRoute route = MaterialPageRoute(
           builder: (context) => DeviceScreen(device: device),
           settings: RouteSettings(name: '/DeviceScreen'));
-      Navigator.of(context).push(route);
+      Navigator.of(context).push(route); */
     } catch (e) {
       Snackbar.show(ABC.c, prettyException("Connect Error:", e),
           success: false);

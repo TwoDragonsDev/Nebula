@@ -41,7 +41,7 @@ class _InfoPageState extends State<InfoPage> {
   @override
   void initState() {
     super.initState();
-    connectToDevice();
+    //connectToDevice();
   }
 
   @override
@@ -55,6 +55,12 @@ class _InfoPageState extends State<InfoPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             BluetoothDeviceInfoWidget(),
+            FloatingActionButton(
+              onPressed: () {
+                print("helloooooooo");
+              },
+              child: Icon(Icons.confirmation_num_outlined),
+            ),
           ],
         ),
       ),
