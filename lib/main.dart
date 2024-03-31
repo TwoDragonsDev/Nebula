@@ -58,6 +58,7 @@ class _InfoPageState extends State<InfoPage> {
             FloatingActionButton(
               onPressed: () {
                 print("helloooooooo");
+                connectToDeviceButton();
               },
               child: Icon(Icons.confirmation_num_outlined),
             ),
@@ -65,7 +66,7 @@ class _InfoPageState extends State<InfoPage> {
         ),
       ),
       floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: 20.0), // Margine inferiore
+        padding: EdgeInsets.only(bottom: 20.0), // Margin e inferiore
         child: FloatingActionButton(
           onPressed: () {
             Navigator.push(

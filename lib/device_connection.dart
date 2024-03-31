@@ -39,3 +39,36 @@ Future<void> connectToDevice() async {
   }
   await Future.delayed(Duration(seconds: 1));
 }
+
+Future<void> connectToDeviceButton() async {
+  final ApplicationController controller = Get.find();
+  if (controller.myDevice.value.isConnected) {
+    print("nothing to do!");
+    return;
+  }
+  ;
+  bool isPermissionGranted =
+      await NotificationListenerService.isPermissionGranted();
+
+  if (!isPermissionGranted) {
+    await NotificationListenerService.requestPermission();
+  }
+
+  final prefs = await SharedPreferences.getInstance();
+  final uuid = prefs.getString('uuid') ?? "";
+  final deviceName = prefs.getString('deviceName') ?? "";
+
+  if (uuid.isNotEmpty && deviceName.isNotEmpty) {
+    controller.setDeviceInfoName(deviceName);
+    controller.myDevice.value =
+        BluetoothDevice(remoteId: DeviceIdentifier(uuid));
+    await controller.myDevice.value.connectAndUpdateStream();
+    controller.setDevice(controller.myDevice.value);
+    initServices();
+  }
+  if (controller.myDevice.value.remoteId != "") {
+    await controller.myDevice.value.connectAndUpdateStream();
+    controller.setDevice(controller.myDevice.value);
+    initServices();
+  }
+}
