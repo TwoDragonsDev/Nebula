@@ -25,13 +25,15 @@ Future<void> notificationHandler() async {
 
   _subscription =
       NotificationListenerService.notificationsStream.listen((event) {
-    if (event.hasRemoved!) {
+    if (controller.myDevice.value.isConnected) {
+      if (event.hasRemoved!) {
+        sendNotification(controller.pushNotificationsService.value!,
+            deleteNotification(event));
+        return;
+      }
       sendNotification(controller.pushNotificationsService.value!,
-          deleteNotification(event));
-      return;
+          createNotification(event, notificationIcons, apps));
     }
-    sendNotification(controller.pushNotificationsService.value!,
-        createNotification(event, notificationIcons, apps));
   });
 }
 

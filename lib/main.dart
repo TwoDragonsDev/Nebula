@@ -57,7 +57,6 @@ class _InfoPageState extends State<InfoPage> {
             BluetoothDeviceInfoWidget(),
             FloatingActionButton(
               onPressed: () {
-                print("helloooooooo");
                 connectToDeviceButton();
               },
               child: Icon(Icons.confirmation_num_outlined),

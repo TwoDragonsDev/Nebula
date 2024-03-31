@@ -87,22 +87,6 @@ class _ScanScreenState extends State<ScanScreen> {
       controller.setDevice(device);
       await prefs.setString('uuid', device.remoteId.toString());
       await prefs.setString('deviceName', device.advName.toString());
-      /*  await device.connectAndUpdateStream();
-      print(device.advName);
-
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('uuid', device.remoteId.toString());
-      await prefs.setString('deviceName', device.advName.toString());
-
-      controller.setDevice(device);
-      controller.setDeviceInfoName(device.advName.toString());
-
-      initServices();
-
-      MaterialPageRoute route = MaterialPageRoute(
-          builder: (context) => DeviceScreen(device: device),
-          settings: RouteSettings(name: '/DeviceScreen'));
-      Navigator.of(context).push(route); */
     } catch (e) {
       Snackbar.show(ABC.c, prettyException("Connect Error:", e),
           success: false);
