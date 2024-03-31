@@ -115,6 +115,11 @@ class ApplicationController extends GetxController {
   final Rx<BluetoothCharacteristic?> pushNotificationsService =
       (null as BluetoothCharacteristic?).obs;
 
+  final Rx<int> counter = 0.obs;
+  void setCounter(int number) {
+    counter.value = number;
+  }
+
   void setDevice(BluetoothDevice device) {
     myDevice.value = device;
   }
