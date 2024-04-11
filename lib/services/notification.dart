@@ -11,5 +11,5 @@ Future<void> notificationService(BluetoothService notificationService) async {
   BluetoothCharacteristic notificationCharacteristic =
       notificationService.characteristics[0];
   controller.setPushNotificationService(notificationCharacteristic);
-  notificationHandler();
+  //notificationHandler();
 }

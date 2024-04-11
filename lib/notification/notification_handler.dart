@@ -28,6 +28,9 @@ Future<void> notificationHandler() async {
     print('Recived notification: $event');
     if (controller.myDevice.value.isConnected &&
         controller.pushNotificationsService.value != null) {
+      if (event.id == 500) {
+        return;
+      }
       if (event.hasRemoved!) {
         sendNotification(controller.pushNotificationsService.value!,
             deleteNotification(event));

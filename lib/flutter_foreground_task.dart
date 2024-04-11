@@ -41,8 +41,6 @@ class MyTaskHandler extends TaskHandler {
 
     _eventCount++;
     connectToDeviceButton();
-
-    notificationHandler();
   }
 
   // Called when the notification button on the Android platform is pressed.

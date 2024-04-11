@@ -58,10 +58,12 @@ Future<void> connectToDeviceButton() async {
     await controller.myDevice.value.connectAndUpdateStream();
     //await controller.myDevice.value.requestMtu(223, predelay: 0);
     controller.setDevice(controller.myDevice.value);
+    initServices();
   }
   if (controller.myDevice.value.remoteId != "") {
     await controller.myDevice.value.connectAndUpdateStream();
     //await controller.myDevice.value.requestMtu(223, predelay: 0);
     controller.setDevice(controller.myDevice.value);
+    initServices();
   }
 }
