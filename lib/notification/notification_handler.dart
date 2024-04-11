@@ -23,9 +23,11 @@ Future<void> notificationHandler() async {
 
   List<AppInfo> apps = await InstalledApps.getInstalledApps(true, true);
 
-  _subscription =
-      NotificationListenerService.notificationsStream.listen((event) {
-    if (controller.myDevice.value.isConnected) {
+  print('Notification handler started!');
+  NotificationListenerService.notificationsStream.listen((event) {
+    print('Recived notification: $event');
+    if (controller.myDevice.value.isConnected &&
+        controller.pushNotificationsService.value != null) {
       if (event.hasRemoved!) {
         sendNotification(controller.pushNotificationsService.value!,
             deleteNotification(event));
@@ -70,6 +72,11 @@ Uint8List deleteNotification(ServiceNotificationEvent event) {
 
 Future<void> sendNotification(
     BluetoothCharacteristic service, Uint8List xmlBytes) async {
-  await service.write(xmlBytes,
-      withoutResponse: service.properties.writeWithoutResponse);
+  try {
+    await service.write(xmlBytes,
+        withoutResponse: service.properties.writeWithoutResponse);
+  } catch (e) {
+    print('Error: The device may be disconnected');
+    print('Actual Error: $e');
+  }
 }

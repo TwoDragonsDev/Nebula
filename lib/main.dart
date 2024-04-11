@@ -6,7 +6,7 @@ import 'package:notification_listener_service/notification_listener_service.dart
 import 'package:shared_preferences/shared_preferences.dart';
 import 'controllers/device_controller.dart';
 import 'device_connection.dart';
-import 'mio_bio.dart';
+import 'flutter_foreground_task.dart';
 import 'screens/ResumeRoutePage.dart';
 import 'screens/example_page.dart';
 import 'screens/scan_screen.dart';
