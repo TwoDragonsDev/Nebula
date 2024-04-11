@@ -17,7 +17,6 @@ AppInfo? findAppByName(List<AppInfo> apps, String packageName) {
 }
 
 Future<void> notificationHandler() async {
-  StreamSubscription<ServiceNotificationEvent>? _subscription;
   final ApplicationController controller = Get.find();
   final Map<String, String> notificationIcons = controller.notificationIcons;
 

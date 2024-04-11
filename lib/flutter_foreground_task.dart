@@ -1,6 +1,5 @@
 import 'dart:isolate';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
-import 'package:notification_listener_service/notification_listener_service.dart';
 
 import 'device_connection.dart';
 import 'notification/notification_handler.dart';
@@ -14,18 +13,6 @@ class MyTaskHandler extends TaskHandler {
   void onStart(DateTime timestamp, SendPort? sendPort) async {
     _sendPort = sendPort;
     notificationHandler();
-
-    // You can use the getData function to get the stored data.
-    final customData =
-        await FlutterForegroundTask.getData<String>(key: 'customData');
-    bool isPermissionGranted =
-        await NotificationListenerService.isPermissionGranted();
-
-    if (!isPermissionGranted) {
-      await NotificationListenerService.requestPermission();
-    }
-
-    print('customData: $customData');
   }
 
   // Called every [interval] milliseconds in [ForegroundTaskOptions].

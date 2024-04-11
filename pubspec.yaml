@@ -20,6 +20,7 @@ dependencies:
   notification_listener_service: ^0.3.3
   installed_apps: ^1.5.0
 
+  xml: any
 flutter:
   uses-material-design: true
 

@@ -4,6 +4,7 @@ import 'dart:isolate';
 import 'package:flutter/material.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:get/get.dart';
+import 'package:notification_listener_service/notification_listener_service.dart';
 
 import '../controllers/device_controller.dart';
 import '../device_connection.dart';
@@ -24,6 +25,11 @@ class _ExamplePageState extends State<ExamplePage> {
   Future<void> _requestPermissionForAndroid() async {
     if (!Platform.isAndroid) {
       return;
+    }
+
+    if (!await NotificationListenerService.isPermissionGranted()) {
+      // This function requires `android.permission.SYSTEM_ALERT_WINDOW` permission.
+      await NotificationListenerService.requestPermission();
     }
 
     // "android.permission.SYSTEM_ALERT_WINDOW" permission must be granted for
