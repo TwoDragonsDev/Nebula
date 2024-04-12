@@ -25,9 +25,10 @@ class MyTaskHandler extends TaskHandler {
     final String status =
         controller.myDevice.value.isConnected ? 'Connected' : 'Disconnected';
     final String deviceName = controller.myDeviceInfo.value.deviceName;
+    final int battery = controller.myDeviceInfo.value.batteryPercentage;
     FlutterForegroundTask.updateService(
-      notificationTitle: 'MyTaskHandler',
-      notificationText: '$status to $deviceName',
+      notificationTitle: 'Nebula Sync',
+      notificationText: '$status to $deviceName ($battery%)',
     );
 
     // Send data to the main isolate.
