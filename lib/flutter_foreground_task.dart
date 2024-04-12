@@ -1,6 +1,9 @@
 import 'dart:isolate';
+import 'package:flutter/material.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
+import 'package:get/get.dart';
 
+import 'controllers/device_controller.dart';
 import 'device_connection.dart';
 import 'notification/notification_handler.dart';
 
@@ -18,9 +21,13 @@ class MyTaskHandler extends TaskHandler {
   // Called every [interval] milliseconds in [ForegroundTaskOptions].
   @override
   void onRepeatEvent(DateTime timestamp, SendPort? sendPort) async {
+    final ApplicationController controller = Get.find();
+    final String status =
+        controller.myDevice.value.isConnected ? 'Connected' : 'Disconnected';
+    final String deviceName = controller.myDeviceInfo.value.deviceName;
     FlutterForegroundTask.updateService(
       notificationTitle: 'MyTaskHandler',
-      notificationText: 'eventCount: $_eventCount',
+      notificationText: '$status to $deviceName',
     );
 
     // Send data to the main isolate.
@@ -54,4 +61,35 @@ class MyTaskHandler extends TaskHandler {
     FlutterForegroundTask.launchApp("/resume-route");
     _sendPort?.send('onNotificationPressed');
   }
+}
+
+void InitForegroundTask() {
+  FlutterForegroundTask.init(
+    androidNotificationOptions: AndroidNotificationOptions(
+      id: 500,
+      channelId: 'foreground_service',
+      channelName: 'Foreground Service Notification',
+      channelDescription:
+          'This notification appears when the foreground service is running.',
+      channelImportance: NotificationChannelImportance.LOW,
+      priority: NotificationPriority.LOW,
+      iconData: const NotificationIconData(
+        resType: ResourceType.mipmap,
+        resPrefix: ResourcePrefix.ic,
+        name: 'launcher',
+        backgroundColor: Colors.orange,
+      ),
+    ),
+    iosNotificationOptions: const IOSNotificationOptions(
+      showNotification: true,
+      playSound: false,
+    ),
+    foregroundTaskOptions: const ForegroundTaskOptions(
+      interval: 5000,
+      isOnceEvent: false,
+      autoRunOnBoot: true,
+      allowWakeLock: true,
+      allowWifiLock: true,
+    ),
+  );
 }
