@@ -51,7 +51,7 @@ class MyTaskHandler extends TaskHandler {
     // Note that the app will only route to "/resume-route" when it is exited so
     // it will usually be necessary to send a message through the send port to
     // signal it to restore state when the app is already started.
-    FlutterForegroundTask.launchApp("/resume-route");
+    //FlutterForegroundTask.launchApp("/resume-route");
   }
 }
 
