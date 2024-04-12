@@ -8,13 +8,9 @@ import 'device_connection.dart';
 import 'notification/notification_handler.dart';
 
 class MyTaskHandler extends TaskHandler {
-  SendPort? _sendPort;
-  int _eventCount = 0;
-
   // Called when the task is started.
   @override
   void onStart(DateTime timestamp, SendPort? sendPort) async {
-    _sendPort = sendPort;
     notificationHandler();
   }
 
@@ -31,10 +27,6 @@ class MyTaskHandler extends TaskHandler {
       notificationText: '$status to $deviceName ($battery%)',
     );
 
-    // Send data to the main isolate.
-    sendPort?.send(_eventCount);
-
-    _eventCount++;
     connectToDeviceButton();
   }
 
@@ -60,7 +52,6 @@ class MyTaskHandler extends TaskHandler {
     // it will usually be necessary to send a message through the send port to
     // signal it to restore state when the app is already started.
     FlutterForegroundTask.launchApp("/resume-route");
-    _sendPort?.send('onNotificationPressed');
   }
 }
 
