@@ -77,7 +77,7 @@ void InitForegroundTask() {
         resType: ResourceType.mipmap,
         resPrefix: ResourcePrefix.ic,
         name: 'launcher',
-        backgroundColor: Colors.orange,
+        backgroundColor: Color.fromARGB(255, 255, 0, 234),
       ),
     ),
     iosNotificationOptions: const IOSNotificationOptions(
