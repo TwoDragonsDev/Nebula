@@ -12,14 +12,14 @@ import '../main.dart';
 import '../widgets/smartwatch_info.dart';
 import 'scan_screen.dart';
 
-class ExamplePage extends StatefulWidget {
-  const ExamplePage({Key? key}) : super(key: key);
+class MainPage extends StatefulWidget {
+  const MainPage({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _ExamplePageState();
+  State<StatefulWidget> createState() => _MainPageState();
 }
 
-class _ExamplePageState extends State<ExamplePage> {
+class _MainPageState extends State<MainPage> {
   ReceivePort? _receivePort;
 
   Future<void> _requestPermissionForAndroid() async {

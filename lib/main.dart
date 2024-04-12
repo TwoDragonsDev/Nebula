@@ -3,8 +3,8 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'controllers/device_controller.dart';
 import 'flutter_foreground_task.dart';
-import 'screens/ResumeRoutePage.dart';
-import 'screens/example_page.dart';
+import 'screens/resume_route_page.dart';
+import 'screens/main_page.dart';
 import 'package:get/get.dart';
 
 // The callback function should always be a top-level function.
@@ -21,11 +21,11 @@ void main() {
   FlutterBluePlus.setLogLevel(LogLevel.verbose, color: true);
   ApplicationController controller = ApplicationController();
   Get.put(controller);
-  runApp(const ExampleApp());
+  runApp(const UIApp());
 }
 
-class ExampleApp extends StatelessWidget {
-  const ExampleApp({Key? key}) : super(key: key);
+class UIApp extends StatelessWidget {
+  const UIApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class ExampleApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       initialRoute: '/',
       routes: {
-        '/': (context) => const ExamplePage(),
+        '/': (context) => const MainPage(),
         '/resume-route': (context) => const ResumeRoutePage(),
       },
     );
