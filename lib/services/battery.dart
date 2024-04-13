@@ -16,8 +16,12 @@ Future<void> batteryService(BluetoothService batteryService) async {
 
 //Subscribe event
   await batteryCharacteristic.setNotifyValue(true);
-  await batteryCharacteristic.lastValueStream.listen((event) {
-    List<int> battery = event;
-    controller.setDeviceInfoBattery(battery[0]);
-  });
+  try {
+    await batteryCharacteristic.lastValueStream.listen((event) {
+      List<int> battery = event;
+      controller.setDeviceInfoBattery(battery[0]);
+    });
+  } catch (e) {
+    print("error: " + e.toString());
+  }
 }

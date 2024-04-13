@@ -17,21 +17,27 @@ AppInfo? findAppByName(List<AppInfo> apps, String packageName) {
 }
 
 Future<void> notificationHandler() async {
-  StreamSubscription<ServiceNotificationEvent>? _subscription;
   final ApplicationController controller = Get.find();
   final Map<String, String> notificationIcons = controller.notificationIcons;
 
   List<AppInfo> apps = await InstalledApps.getInstalledApps(true, true);
 
-  _subscription =
-      NotificationListenerService.notificationsStream.listen((event) {
-    if (event.hasRemoved!) {
+  print('Notification handler started!');
+  NotificationListenerService.notificationsStream.listen((event) {
+    print('Recived notification: $event');
+    if (controller.myDevice.value.isConnected &&
+        controller.pushNotificationsService.value != null) {
+      if (event.id == 500) {
+        return;
+      }
+      if (event.hasRemoved!) {
+        sendNotification(controller.pushNotificationsService.value!,
+            deleteNotification(event));
+        return;
+      }
       sendNotification(controller.pushNotificationsService.value!,
-          deleteNotification(event));
-      return;
+          createNotification(event, notificationIcons, apps));
     }
-    sendNotification(controller.pushNotificationsService.value!,
-        createNotification(event, notificationIcons, apps));
   });
 }
 
@@ -68,6 +74,11 @@ Uint8List deleteNotification(ServiceNotificationEvent event) {
 
 Future<void> sendNotification(
     BluetoothCharacteristic service, Uint8List xmlBytes) async {
-  await service.write(xmlBytes,
-      withoutResponse: service.properties.writeWithoutResponse);
+  try {
+    await service.write(xmlBytes,
+        withoutResponse: service.properties.writeWithoutResponse);
+  } catch (e) {
+    print('Error: The device may be disconnected');
+    print('Actual Error: $e');
+  }
 }

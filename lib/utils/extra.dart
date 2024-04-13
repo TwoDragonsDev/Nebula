@@ -29,11 +29,14 @@ extension Extra on BluetoothDevice {
     return _dstream.stream;
   }
 
-  // connect & update stream
+// connect & update stream
   Future<void> connectAndUpdateStream() async {
     _cstream.add(true);
     try {
       await connect(mtu: null);
+    } catch (e) {
+      print('Error: $e');
+      print('Device may be disconnected.');
     } finally {
       _cstream.add(false);
     }
