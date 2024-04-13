@@ -9,6 +9,13 @@ Future<void> RequestPermissionForAndroid() async {
   }
   PermissionStatus status = await Permission.location.status;
 
+  if (status != PermissionStatus.granted) {
+    await Permission.bluetoothScan.request();
+    await Permission.bluetoothConnect.request();
+    await Permission.nearbyWifiDevices.request();
+    await Permission.bluetooth.request();
+    await Permission.bluetoothAdvertise.request();
+  }
   if (!await NotificationListenerService.isPermissionGranted()) {
     // This function requires `android.permission.SYSTEM_ALERT_WINDOW` permission.
     await NotificationListenerService.requestPermission();
@@ -40,9 +47,5 @@ Future<void> RequestPermissionForAndroid() async {
       await FlutterForegroundTask.checkNotificationPermission();
   if (notificationPermissionStatus != NotificationPermission.granted) {
     await FlutterForegroundTask.requestNotificationPermission();
-  }
-
-  if (status != PermissionStatus.granted) {
-    await Permission.bluetoothScan.request();
   }
 }
