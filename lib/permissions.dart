@@ -1,12 +1,13 @@
-import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'dart:io';
 import 'package:notification_listener_service/notification_listener_service.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 Future<void> RequestPermissionForAndroid() async {
   if (!Platform.isAndroid) {
     return;
   }
+  PermissionStatus status = await Permission.location.status;
 
   if (!await NotificationListenerService.isPermissionGranted()) {
     // This function requires `android.permission.SYSTEM_ALERT_WINDOW` permission.
@@ -40,5 +41,8 @@ Future<void> RequestPermissionForAndroid() async {
   if (notificationPermissionStatus != NotificationPermission.granted) {
     await FlutterForegroundTask.requestNotificationPermission();
   }
-  await FlutterBluePlus.systemDevices;
+
+  if (status != PermissionStatus.granted) {
+    await Permission.bluetoothScan.request();
+  }
 }

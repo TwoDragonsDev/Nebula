@@ -21,6 +21,7 @@ dependencies:
   installed_apps: ^1.5.0
 
   xml: any
+  permission_handler: ^11.3.1
 flutter:
   uses-material-design: true
 
