@@ -63,16 +63,30 @@ class _MainPageState extends State<MainPage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(
-              Icons.watch,
-              size: 64,
-            ),
-            SizedBox(height: 16),
-            Text(
-              '80%',
-              style: TextStyle(fontSize: 24),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.watch,
+                  size: 64,
+                ),
+                SizedBox(width: 16),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '80%',
+                      style: TextStyle(fontSize: 24),
+                    ),
+                    Text(
+                      'Device Name',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
+                ),
+              ],
             ),
             SizedBox(height: 32),
             Row(
@@ -80,13 +94,13 @@ class _MainPageState extends State<MainPage> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    // Naviga alla pagina delle impostazioni meteo
+                    // Navigate to weather settings page
                   },
                   child: Text('Weather Settings'),
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    // Naviga alla pagina di ricerca dell'orologio
+                    // Navigate to watch search page
                   },
                   child: Text('Search Watch'),
                 ),
@@ -98,13 +112,13 @@ class _MainPageState extends State<MainPage> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    // Esegui uno screenshot dello smartwatch
+                    // Take screenshot of smartwatch
                   },
                   child: Text('Take Screenshot'),
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    // Naviga alla pagina delle impostazioni delle notifiche
+                    // Navigate to notification settings page
                   },
                   child: Text('Notification Settings'),
                 ),
@@ -116,24 +130,23 @@ class _MainPageState extends State<MainPage> {
               children: [
                 SwitchListTile(
                   title: Text('Sync Time'),
-                  value: true, // Valore booleano per la sincronizzazione ora
+                  value: true,
                   onChanged: (value) {
-                    // Aggiorna lo stato della sincronizzazione ora
+                    // Update sync time state
                   },
                 ),
                 SwitchListTile(
                   title: Text('Silence Phone on Connect'),
-                  value: true, // Valore booleano per il silenzio del telefono
+                  value: true,
                   onChanged: (value) {
-                    // Aggiorna lo stato del silenzio del telefono
+                    // Update silence phone state
                   },
                 ),
                 SwitchListTile(
                   title: Text('Show Incoming Calls'),
-                  value:
-                      true, // Valore booleano per la visualizzazione delle chiamate in arrivo
+                  value: true,
                   onChanged: (value) {
-                    // Aggiorna lo stato della visualizzazione delle chiamate in arrivo
+                    // Update show incoming calls state
                   },
                 ),
               ],
