@@ -3,7 +3,7 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'controllers/device_controller.dart';
 import 'flutter_foreground_task.dart';
-import 'screens/main_page.dart';
+import 'screens/main_screen.dart';
 import 'package:get/get.dart';
 
 // The callback function should always be a top-level function.
