@@ -15,7 +15,7 @@ class ApplicationsConfigurationPage extends StatefulWidget {
 
 class _ApplicationsConfigurationPageState
     extends State<ApplicationsConfigurationPage> {
-  final List<String> _options = ['none', 'normal', 'strong', 'ringtone'];
+  final List<String> _options = ['off', 'none', 'normal', 'strong', 'ringtone'];
 
   List<AppInfoData> _myApps = [];
 
@@ -37,12 +37,28 @@ class _ApplicationsConfigurationPageState
     }
   }
 
+  Future<void> _applyChanges() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String> myApps = [];
+    for (var app in _myApps) {
+      myApps.add(json.encode(app));
+    }
+    await prefs.setStringList('myApps', myApps);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Notification setting'),
         leading: BackButton(),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.check),
+            onPressed: _applyChanges,
+            tooltip: 'Apply',
+          ),
+        ],
       ),
       body: ListView.builder(
         itemCount: _myApps.length,
@@ -72,7 +88,7 @@ class _ApplicationsConfigurationPageState
                 value: appInfo.option,
                 onChanged: (String? newValue) {
                   setState(() {
-                    appInfo.option = newValue!;
+                    _myApps[index].option = newValue!;
                   });
                 },
                 items: _options.map<DropdownMenuItem<String>>((String value) {

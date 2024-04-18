@@ -20,7 +20,7 @@ Future<void> ApplicationsConfiguration() async {
         name: app.name,
         packageName: app.packageName,
         icon: app.icon,
-        option: 'none');
+        option: 'off');
     myApps.add(json.encode(myApp));
   }
 
