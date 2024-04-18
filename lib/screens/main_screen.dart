@@ -1,4 +1,5 @@
 import 'package:Nebula/applications_configuration.dart';
+import 'package:Nebula/screens/scan_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:get/get.dart';
@@ -158,6 +159,20 @@ class _MainPageState extends State<MainPage> {
               ],
             ),
           ],
+        ),
+      ),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(bottom: 20.0), // Margin e inferiore
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ScanScreen(),
+              ),
+            );
+          },
+          child: Icon(Icons.bluetooth_searching),
         ),
       ),
     );
