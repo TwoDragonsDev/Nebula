@@ -1,3 +1,4 @@
+import 'package:Nebula/applications_configuration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:get/get.dart';
@@ -41,6 +42,7 @@ class _MainPageState extends State<MainPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await RequestPermissionForAndroid();
       InitForegroundTask();
+      ApplicationsConfiguration();
       _startForegroundTask();
     });
   }
