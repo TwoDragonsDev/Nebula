@@ -3,12 +3,10 @@ import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:get/get.dart';
 
 import '../controllers/device_controller.dart';
-import '../device_connection.dart';
 import '../flutter_foreground_task.dart';
 import '../main.dart';
 import '../permissions.dart';
-import '../widgets/smartwatch_info.dart';
-import 'scan_screen.dart';
+import 'applications_configuration.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -119,6 +117,12 @@ class _MainPageState extends State<MainPage> {
                 ElevatedButton(
                   onPressed: () {
                     // Navigate to notification settings page
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ApplicationsConfigurationPage()),
+                    );
                   },
                   child: Text('Notification Settings'),
                 ),
