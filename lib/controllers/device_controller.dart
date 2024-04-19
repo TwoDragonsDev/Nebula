@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
@@ -149,6 +150,15 @@ class ApplicationController extends GetxController {
       deviceName: deviceInfoName,
       deviceAddress: myDeviceInfo.value.deviceAddress,
       isConnected: myDeviceInfo.value.isConnected,
+      batteryPercentage: myDeviceInfo.value.batteryPercentage,
+    );
+  }
+
+  void setDeviceInfoConnected(bool deviceInfoConnected) {
+    myDeviceInfo.value = SmartwatchDeviceInfo(
+      deviceName: myDeviceInfo.value.deviceName,
+      deviceAddress: myDeviceInfo.value.deviceAddress,
+      isConnected: deviceInfoConnected,
       batteryPercentage: myDeviceInfo.value.batteryPercentage,
     );
   }
