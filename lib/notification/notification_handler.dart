@@ -30,7 +30,6 @@ Future<void> notificationHandler() async {
 
   print('Notification handler started!');
   NotificationListenerService.notificationsStream.listen((event) {
-    print('Recived notification: $event');
     if (controller.myDevice.value.isConnected &&
         controller.pushNotificationsService.value != null) {
       AppInfoData? appFound = findAppByName(_myApps, event.packageName!);
