@@ -122,6 +122,15 @@ class _MainPageState extends State<MainPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Text(
+                      controller.myDeviceInfo.value.isConnected
+                          ? 'Connected'
+                          : 'Disconnected',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                        width: 8), // Aggiunge uno spazio tra il testo e l'icona
                     Icon(
                       Icons.watch,
                       size: 64,
