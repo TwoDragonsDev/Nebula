@@ -153,6 +153,15 @@ class ApplicationController extends GetxController {
     );
   }
 
+  void setDeviceInfoConnected(bool deviceInfoConnected) {
+    myDeviceInfo.value = SmartwatchDeviceInfo(
+      deviceName: myDeviceInfo.value.deviceName,
+      deviceAddress: myDeviceInfo.value.deviceAddress,
+      isConnected: deviceInfoConnected,
+      batteryPercentage: myDeviceInfo.value.batteryPercentage,
+    );
+  }
+
   void setDeviceInfoBattery(int batteryPercentage) {
     myDeviceInfo.value = SmartwatchDeviceInfo(
       deviceName: myDeviceInfo.value.deviceName,

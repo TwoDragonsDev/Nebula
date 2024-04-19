@@ -12,6 +12,11 @@ class MyTaskHandler extends TaskHandler {
   @override
   void onStart(DateTime timestamp, SendPort? sendPort) async {
     notificationHandler();
+
+    // You can use the getData function to get the stored data.
+    final customData =
+        await FlutterForegroundTask.getData<String>(key: 'customData');
+    print('customData: $customData');
   }
 
   // Called every [interval] milliseconds in [ForegroundTaskOptions].
@@ -26,6 +31,15 @@ class MyTaskHandler extends TaskHandler {
       notificationTitle: 'Nebula Sync',
       notificationText: '$status to $deviceName ($battery%)',
     );
+
+    final Map<String, dynamic> deviceData = {
+      'isConnected': controller.myDevice.value.isConnected,
+      'batteryPercentage': controller.myDeviceInfo.value.batteryPercentage,
+      'deviceName': deviceName,
+    };
+
+    // Send data to the main isolate.
+    sendPort?.send(deviceData);
 
     connectToDeviceButton();
   }

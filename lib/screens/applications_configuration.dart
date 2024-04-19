@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:installed_apps/app_info.dart';
-import 'package:installed_apps/installed_apps.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import '../models/app_info.dart';
 
 class ApplicationsConfigurationPage extends StatefulWidget {
   const ApplicationsConfigurationPage({Key? key}) : super(key: key);
+
   @override
   _ApplicationsConfigurationPageState createState() =>
       _ApplicationsConfigurationPageState();
@@ -11,30 +15,43 @@ class ApplicationsConfigurationPage extends StatefulWidget {
 
 class _ApplicationsConfigurationPageState
     extends State<ApplicationsConfigurationPage> {
-  final List<String> _options = [
-    'Default',
-    'No notifications',
-    'Silent',
-    'Vibrate',
-    'Strong vibration',
-    'Ringtone',
-  ];
+  final List<String> _options = ['off', 'none', 'normal', 'strong', 'ringtone'];
 
-  final Map<AppInfo, String> _selections = {};
+  List<AppInfoData> _myApps = [];
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _loadInstalledApps();
   }
 
   Future<void> _loadInstalledApps() async {
-    List<AppInfo> apps = await InstalledApps.getInstalledApps(true, true);
-    setState(() {
-      for (var app in apps) {
-        _selections[app] = 'Default';
-      }
-    });
+    final prefs = await SharedPreferences.getInstance();
+    final savedMyApps = prefs.getStringList('myApps');
+    if (savedMyApps != null) {
+      setState(() {
+        _myApps = savedMyApps
+            .map((myApp) => AppInfoData.fromJson(json.decode(myApp)))
+            .toList();
+      });
+    }
+  }
+
+  Future<void> _applyChanges() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String> myApps = [];
+    for (var app in _myApps) {
+      myApps.add(json.encode(app));
+    }
+    await prefs.setStringList('myApps', myApps);
+
+    Fluttertoast.showToast(
+      msg: 'Changes applied successfully!',
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+    );
   }
 
   @override
@@ -43,12 +60,20 @@ class _ApplicationsConfigurationPageState
       appBar: AppBar(
         title: Text('Notification setting'),
         leading: BackButton(),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.check),
+            onPressed: _applyChanges,
+            tooltip: 'Apply',
+          ),
+        ],
       ),
       body: ListView.builder(
-        itemCount: _selections.length,
+        itemCount: _myApps.length,
         itemBuilder: (context, index) {
-          AppInfo appInfo = _selections.keys.elementAt(index);
+          AppInfoData appInfo = _myApps[index];
           String appName = appInfo.name;
+          String packageName = appInfo.packageName;
           return Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16.0),
@@ -66,12 +91,12 @@ class _ApplicationsConfigurationPageState
                 ),
               ),
               title: Text(appName),
-              subtitle: Text(_selections.keys.elementAt(index).packageName),
+              subtitle: Text(packageName),
               trailing: DropdownButton<String>(
-                value: _selections[appInfo],
+                value: appInfo.option,
                 onChanged: (String? newValue) {
                   setState(() {
-                    _selections[appInfo] = newValue!;
+                    _myApps[index].option = newValue!;
                   });
                 },
                 items: _options.map<DropdownMenuItem<String>>((String value) {
