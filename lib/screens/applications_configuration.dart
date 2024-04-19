@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 import '../models/app_info.dart';
 
 class ApplicationsConfigurationPage extends StatefulWidget {
@@ -44,6 +44,14 @@ class _ApplicationsConfigurationPageState
       myApps.add(json.encode(app));
     }
     await prefs.setStringList('myApps', myApps);
+
+    Fluttertoast.showToast(
+      msg: 'Changes applied successfully!',
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+    );
   }
 
   @override
