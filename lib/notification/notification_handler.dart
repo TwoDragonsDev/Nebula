@@ -1,44 +1,57 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:Nebula/models/app_info.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-import 'package:installed_apps/app_info.dart';
-import 'package:installed_apps/installed_apps.dart';
 import 'package:notification_listener_service/notification_event.dart';
 import 'package:notification_listener_service/notification_listener_service.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xml/xml.dart' as xml;
 import '../controllers/device_controller.dart';
 
-AppInfo? findAppByName(List<AppInfo> apps, String packageName) {
+AppInfoData? findAppByName(List<AppInfoData> apps, String packageName) {
   return apps.firstWhere(
     (app) => app.packageName == packageName,
   );
 }
 
 Future<void> notificationHandler() async {
-  StreamSubscription<ServiceNotificationEvent>? _subscription;
   final ApplicationController controller = Get.find();
   final Map<String, String> notificationIcons = controller.notificationIcons;
+  List<AppInfoData> _myApps = [];
+  final prefs = await SharedPreferences.getInstance();
+  final savedMyApps = prefs.getStringList('myApps');
+  if (savedMyApps != null) {
+    _myApps = savedMyApps
+        .map((myApp) => AppInfoData.fromJson(json.decode(myApp)))
+        .toList();
+  }
 
-  List<AppInfo> apps = await InstalledApps.getInstalledApps(true, true);
-
-  _subscription =
-      NotificationListenerService.notificationsStream.listen((event) {
-    if (event.hasRemoved!) {
+  print('Notification handler started!');
+  NotificationListenerService.notificationsStream.listen((event) {
+    if (controller.myDevice.value.isConnected &&
+        controller.pushNotificationsService.value != null) {
+      AppInfoData? appFound = findAppByName(_myApps, event.packageName!);
+      if (appFound!.option == "off") {
+        return;
+      }
+      if (event.id == 500) {
+        return;
+      }
+      if (event.hasRemoved!) {
+        sendNotification(controller.pushNotificationsService.value!,
+            deleteNotification(event));
+        return;
+      }
       sendNotification(controller.pushNotificationsService.value!,
-          deleteNotification(event));
-      return;
+          createNotification(event, notificationIcons, appFound));
     }
-    sendNotification(controller.pushNotificationsService.value!,
-        createNotification(event, notificationIcons, apps));
   });
 }
 
 Uint8List createNotification(ServiceNotificationEvent event,
-    Map<String, String> notificationIcons, List<AppInfo> apps) {
-  AppInfo? appFound = findAppByName(apps, event.packageName!);
-
+    Map<String, String> notificationIcons, AppInfoData? appFound) {
   var message = xml.XmlBuilder();
   message.element('insert', nest: () {
     message.element('pn', nest: event.packageName);
@@ -47,7 +60,7 @@ Uint8List createNotification(ServiceNotificationEvent event,
     message.element('ai', nest: notificationIcons[event.packageName]);
     message.element('su', nest: event.title);
     message.element('bo', nest: event.content);
-    message.element('vb', nest: 'normal');
+    message.element('vb', nest: appFound!.option);
   });
   final document = message.buildDocument();
   String xmlString = document.toString();
@@ -68,6 +81,11 @@ Uint8List deleteNotification(ServiceNotificationEvent event) {
 
 Future<void> sendNotification(
     BluetoothCharacteristic service, Uint8List xmlBytes) async {
-  await service.write(xmlBytes,
-      withoutResponse: service.properties.writeWithoutResponse);
+  try {
+    await service.write(xmlBytes,
+        withoutResponse: service.properties.writeWithoutResponse);
+  } catch (e) {
+    print('Error: The device may be disconnected');
+    print('Actual Error: $e');
+  }
 }

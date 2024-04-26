@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
+import 'package:notification_listener_service/notification_event.dart';
 
 import '../models/smartwatch_device_info.dart';
 
@@ -115,6 +118,20 @@ class ApplicationController extends GetxController {
   final Rx<BluetoothCharacteristic?> pushNotificationsService =
       (null as BluetoothCharacteristic?).obs;
 
+  final Rx<StreamSubscription<ServiceNotificationEvent>?> notificationsService =
+      (null as StreamSubscription<ServiceNotificationEvent>?).obs;
+
+  final Rx<int> counter = 0.obs;
+  final Rx<bool> isNotificationRunning = false.obs;
+
+  void setCounter(int number) {
+    counter.value = number;
+  }
+
+  void setNotificationConnection(bool isConnected) {
+    isNotificationRunning.value = isConnected;
+  }
+
   void setDevice(BluetoothDevice device) {
     myDevice.value = device;
   }
@@ -136,6 +153,15 @@ class ApplicationController extends GetxController {
     );
   }
 
+  void setDeviceInfoConnected(bool deviceInfoConnected) {
+    myDeviceInfo.value = SmartwatchDeviceInfo(
+      deviceName: myDeviceInfo.value.deviceName,
+      deviceAddress: myDeviceInfo.value.deviceAddress,
+      isConnected: deviceInfoConnected,
+      batteryPercentage: myDeviceInfo.value.batteryPercentage,
+    );
+  }
+
   void setDeviceInfoBattery(int batteryPercentage) {
     myDeviceInfo.value = SmartwatchDeviceInfo(
       deviceName: myDeviceInfo.value.deviceName,
@@ -147,5 +173,10 @@ class ApplicationController extends GetxController {
 
   void setPushNotificationService(BluetoothCharacteristic data) {
     pushNotificationsService.value = data;
+  }
+
+  void setPushNotificationServiceSub(
+      StreamSubscription<ServiceNotificationEvent>? subscription) {
+    notificationsService.value = subscription;
   }
 }

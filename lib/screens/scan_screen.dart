@@ -5,12 +5,10 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../controllers/device_controller.dart';
-import '../services/init_services.dart';
 import 'device_screen.dart';
 import '../utils/snackbar.dart';
 import '../widgets/system_device_tile.dart';
 import '../widgets/scan_result_tile.dart';
-import '../utils/extra.dart';
 import 'package:get/get.dart';
 
 class ScanScreen extends StatefulWidget {
@@ -24,7 +22,6 @@ class _ScanScreenState extends State<ScanScreen> {
   bool _isScanning = false;
   late StreamSubscription<List<ScanResult>> _scanResultsSubscription;
   late StreamSubscription<bool> _isScanningSubscription;
-
   @override
   void initState() {
     super.initState();
@@ -82,24 +79,12 @@ class _ScanScreenState extends State<ScanScreen> {
 
   void onConnectPressed(BluetoothDevice device) async {
     try {
-      await device.connectAndUpdateStream();
-      print(device.advName);
-
+      final ApplicationController controller = Get.find();
       final prefs = await SharedPreferences.getInstance();
+      controller.setDeviceInfoName(device.advName);
+      controller.setDevice(device);
       await prefs.setString('uuid', device.remoteId.toString());
       await prefs.setString('deviceName', device.advName.toString());
-
-      final ApplicationController controller = Get.find();
-
-      controller.setDevice(device);
-      controller.setDeviceInfoName(device.advName.toString());
-
-      initServices();
-
-      MaterialPageRoute route = MaterialPageRoute(
-          builder: (context) => DeviceScreen(device: device),
-          settings: RouteSettings(name: '/DeviceScreen'));
-      Navigator.of(context).push(route);
     } catch (e) {
       Snackbar.show(ABC.c, prettyException("Connect Error:", e),
           success: false);
