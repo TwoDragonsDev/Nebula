@@ -28,12 +28,16 @@ class BluetoothDeviceInfoWidget extends StatelessWidget {
                     Text(
                       controller.myDeviceInfo.value.deviceName,
                       style: TextStyle(
-                          fontSize: 20.0, fontWeight: FontWeight.bold),
+                          color: Theme.of(context).colorScheme.primary,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 8.0),
                     Text(
                       'Identifier: ${controller.myDevice.value.remoteId}',
-                      style: TextStyle(fontSize: 16.0),
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontSize: 16.0),
                     ),
                     SizedBox(height: 8.0),
                     Text(
@@ -41,10 +45,8 @@ class BluetoothDeviceInfoWidget extends StatelessWidget {
                           ? 'Connected'
                           : 'Not Connected',
                       style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
                         fontSize: 16.0,
-                        color: controller.myDevice.value.isConnected
-                            ? Colors.green
-                            : Colors.red,
                       ),
                     ),
                     SizedBox(height: 8.0),
@@ -54,7 +56,9 @@ class BluetoothDeviceInfoWidget extends StatelessWidget {
                         SizedBox(width: 4.0),
                         Text(
                           '${controller.myDeviceInfo.value.batteryPercentage}%',
-                          style: TextStyle(fontSize: 16.0),
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontSize: 16.0),
                         ),
                       ],
                     ),

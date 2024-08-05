@@ -101,13 +101,12 @@ class _ApplicationsConfigurationPageState
                 },
                 items: _options.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      //TODO use theme color text
-                      style: TextStyle(color: Colors.blue),
-                    ),
-                  );
+                      value: value,
+                      child: Text(
+                        value,
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary),
+                      ));
                 }).toList(),
                 underline: Container(),
               ),
