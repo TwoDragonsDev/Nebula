@@ -41,7 +41,12 @@ class _DescriptorTileState extends State<DescriptorTile> {
 
   List<int> _getRandomBytes() {
     final math = Random();
-    return [math.nextInt(255), math.nextInt(255), math.nextInt(255), math.nextInt(255)];
+    return [
+      math.nextInt(255),
+      math.nextInt(255),
+      math.nextInt(255),
+      math.nextInt(255)
+    ];
   }
 
   Future onReadPressed() async {
@@ -49,7 +54,8 @@ class _DescriptorTileState extends State<DescriptorTile> {
       await d.read();
       Snackbar.show(ABC.c, "Descriptor Read : Success", success: true);
     } catch (e) {
-      Snackbar.show(ABC.c, prettyException("Descriptor Read Error:", e), success: false);
+      Snackbar.show(ABC.c, prettyException("Descriptor Read Error:", e),
+          success: false);
     }
   }
 
@@ -58,18 +64,23 @@ class _DescriptorTileState extends State<DescriptorTile> {
       await d.write(_getRandomBytes());
       Snackbar.show(ABC.c, "Descriptor Write : Success", success: true);
     } catch (e) {
-      Snackbar.show(ABC.c, prettyException("Descriptor Write Error:", e), success: false);
+      Snackbar.show(ABC.c, prettyException("Descriptor Write Error:", e),
+          success: false);
     }
   }
 
   Widget buildUuid(BuildContext context) {
     String uuid = '0x${widget.descriptor.uuid.str.toUpperCase()}';
-    return Text(uuid, style: TextStyle(fontSize: 13));
+    return Text(uuid,
+        style: TextStyle(
+            color: Theme.of(context).colorScheme.primary, fontSize: 13));
   }
 
   Widget buildValue(BuildContext context) {
     String data = _value.toString();
-    return Text(data, style: TextStyle(fontSize: 13, color: Colors.grey));
+    return Text(data,
+        style: TextStyle(
+            color: Theme.of(context).colorScheme.primary, fontSize: 13));
   }
 
   Widget buildReadButton(BuildContext context) {

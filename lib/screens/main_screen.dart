@@ -126,8 +126,10 @@ class _MainPageState extends State<MainPage> {
                       controller.myDeviceInfo.value.isConnected
                           ? 'Connected'
                           : 'Disconnected',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
                         width: 8), // Aggiunge uno spazio tra il testo e l'icona
@@ -143,11 +145,15 @@ class _MainPageState extends State<MainPage> {
                           controller.myDeviceInfo.value.batteryPercentage
                                   .toString() +
                               "%",
-                          style: TextStyle(fontSize: 24),
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontSize: 24),
                         ),
                         Text(
                           controller.myDeviceInfo.value.deviceName.toString(),
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontSize: 18),
                         ),
                       ],
                     ),
