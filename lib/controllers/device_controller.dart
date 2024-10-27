@@ -118,6 +118,9 @@ class ApplicationController extends GetxController {
   final Rx<BluetoothCharacteristic?> pushNotificationsService =
       (null as BluetoothCharacteristic?).obs;
 
+  final Rx<BluetoothCharacteristic?> timeService =
+      (null as BluetoothCharacteristic?).obs;
+
   final Rx<StreamSubscription<ServiceNotificationEvent>?> notificationsService =
       (null as StreamSubscription<ServiceNotificationEvent>?).obs;
 
@@ -178,5 +181,11 @@ class ApplicationController extends GetxController {
   void setPushNotificationServiceSub(
       StreamSubscription<ServiceNotificationEvent>? subscription) {
     notificationsService.value = subscription;
+  }
+
+  void setTimeService(BluetoothCharacteristic? data) {
+    if (data != null) {
+      timeService.value = data;
+    }
   }
 }

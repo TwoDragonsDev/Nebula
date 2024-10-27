@@ -1,4 +1,5 @@
 import 'dart:isolate';
+import 'package:Nebula/time/time_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:get/get.dart';
@@ -38,10 +39,21 @@ class MyTaskHandler extends TaskHandler {
       'deviceName': deviceName,
     };
 
-    // Send data to the main isolate.
-    sendPort?.send(deviceData);
+    // Attempt to send data to the main isolate.
+    try {
+      if (sendPort != null) {
+        sendPort.send(deviceData);
+        print("Data sent to main isolate: $deviceData");
+      } else {
+        print("Error: SendPort is null, data not sent.");
+      }
+    } catch (e, stackTrace) {
+      print("Error sending data via SendPort: $e");
+      print("Stack trace: $stackTrace");
+    }
 
     connectToDeviceButton();
+    timeHandler();
   }
 
   // Called when the notification button on the Android platform is pressed.

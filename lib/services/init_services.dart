@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:Nebula/services/notification.dart';
+import 'package:Nebula/services/time_service.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
 
@@ -32,8 +33,13 @@ Future<void> initServices() async {
     if (serviceId == "0x180f") {
       batteryService(element);
     }
+    //Set notification serice
     if (serviceId == "0x00009071-0000-0000-0000-00a57e401d05") {
       notificationService(element);
+    }
+    //Set time service
+    if (serviceId == "0x00005071-0000-0000-0000-00a57e401d05") {
+      timeService(element);
     }
   });
 }
